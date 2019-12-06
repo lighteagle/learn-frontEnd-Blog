@@ -8,6 +8,7 @@ export default function Register() {
     password: ""
   });
   const [error, setError] = useState(null);
+  const [result, setResult] = useState(null);
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -23,14 +24,15 @@ export default function Register() {
     console.log(newUser);
 
     axios
-      .post(process.env.REACT_APP_BACKEND_URI + "users/register", newUser)
-      .then(result => console.log(result))
+      .post(process.env.REACT_APP_BACKEND_URI + "/users/register", newUser)
+      .then(result => setResult(result.data.message))
       .catch(error => setError(error.response.data.message));
   };
 
   return (
     <div className="col-md-6 offset-md-3">
       <h3>Register Form</h3>
+      {result && <div className="alert alert-danger">{result}</div>}
       {error && <div className="alert alert-danger">{error}</div>}
       <hr />
       <div className="form-group row">
